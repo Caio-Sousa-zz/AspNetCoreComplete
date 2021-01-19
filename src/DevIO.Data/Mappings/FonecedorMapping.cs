@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DevIO.Data.Mappings
 {
-    public class FonecedprMapping : IEntityTypeConfiguration<Fornecedor>
+    public class FonecedorMapping : IEntityTypeConfiguration<Fornecedor>
     {
         public void Configure(EntityTypeBuilder<Fornecedor> builder)
         {
@@ -25,7 +25,7 @@ namespace DevIO.Data.Mappings
             // Relação 1: N => Fornecedor : Produtos
             builder.HasMany(f => f.Produtos)
                 .WithOne(p => p.Fornecedor)
-                .HasForeignKey(p => p.Fornecedor);
+                .HasForeignKey(p => p.FornecedorId);
 
             builder.ToTable("Fornecedores");
         }
