@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using DevIO.App.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevIO.App.Data
 {
@@ -12,5 +10,6 @@ namespace DevIO.App.Data
             : base(options)
         {
         }
+
     }
 }
