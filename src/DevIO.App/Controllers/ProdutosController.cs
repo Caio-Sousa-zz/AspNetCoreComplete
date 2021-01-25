@@ -5,7 +5,9 @@ using DevIO.Business.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace DevIO.App.Controllers
 {
@@ -49,8 +51,18 @@ namespace DevIO.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
-            produtoViewModel = await PopulateFornecedores(new ProdutoViewModel());
+            produtoViewModel = await PopulateFornecedores(produtoViewModel);
+
             if (!ModelState.IsValid) return View(produtoViewModel);
+
+            var imgPrefix = $"{Guid.NewGuid()}_";
+
+            if (!await UploadFile(produtoViewModel.ImagemUpload, imgPrefix))
+            {
+                return View(produtoViewModel);
+            }
+
+            produtoViewModel.Imagem = imgPrefix + produtoViewModel.ImagemUpload.FileName;
 
             await _produtoRepository.Add(_mapper.Map<Produto>(produtoViewModel));
 
@@ -62,7 +74,7 @@ namespace DevIO.App.Controllers
             var produtoViewModel = await GetProduto(id);
 
             if (produtoViewModel == null) return NotFound();
-            
+
             return View(produtoViewModel);
         }
 
@@ -74,14 +86,14 @@ namespace DevIO.App.Controllers
 
             await _produtoRepository.Update(_mapper.Map<Produto>(produtoViewModel));
 
-            return RedirectToAction(nameof(Index));    
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(Guid id)
         {
             var produtoViewModel = await GetProduto(id);
 
-            if (produtoViewModel == null)  return NotFound();
+            if (produtoViewModel == null) return NotFound();
 
             return View(produtoViewModel);
         }
@@ -111,6 +123,32 @@ namespace DevIO.App.Controllers
             produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.GetAll());
 
             return produto;
+        }
+
+        private async Task<bool> UploadFile(IFormFile file, string filePrefix)
+        {
+            if (file.Length <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "Arquivo inválido!");
+
+                return false;
+            }
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files", filePrefix + file.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                ModelState.AddModelError(string.Empty, "Já existe um arquivo com este nome!");
+
+                return false;
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return true;
         }
     }
 }
