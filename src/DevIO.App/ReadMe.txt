@@ -1,1 +1,1 @@
-﻿Customização das Views - 17:00
+﻿Globalizando a aplicação em pt-BR- 15:20
