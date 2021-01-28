@@ -81,7 +81,7 @@ namespace DevIO.App.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var fornecedorViewModel = GetFornecedorEndereco(id);
+            var fornecedorViewModel = await GetFornecedorEndereco(id);
 
             if (fornecedorViewModel == null) return NotFound();
 
