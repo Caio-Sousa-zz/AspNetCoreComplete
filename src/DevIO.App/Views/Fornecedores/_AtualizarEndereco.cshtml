@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Atualizar Endereço";
-} 
+}
 
 <div class="modal-header">
     <h4 class=modal-title>@ViewData["Title"]</h4>
@@ -16,13 +16,17 @@
         <input type="hidden" asp-for="Endereco.FornecedorId">
         <input type="hidden" asp-for="Endereco.Id">
 
-        <partial name="_Endereco"/>
+        <partial name="_Endereco" />
     </div>
 
     <div class="modal-footer">
         <div class="col-md-offset-2 col-md-10">
-             <input type="submit" value="Atualizar Endereço" class="btn btn-success" />
-             <input type="button" value="Fechar" class="btn btn-info" data-dismiss="modal"/>
+            <input type="submit" value="Atualizar Endereço" class="btn btn-success" />
+            <input type="button" value="Fechar" class="btn btn-info" data-dismiss="modal" />
         </div>
     </div>
 </form>
+
+<script>
+    BuscaCep();
+</script>
