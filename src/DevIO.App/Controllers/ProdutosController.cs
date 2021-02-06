@@ -32,7 +32,7 @@ namespace DevIO.App.Controllers
             return View(_mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.GetProdutosFornecedores()));
         }
 
-        // [Route("dados-do-produto/{id:guid}")]
+        [Route("dados-do-produto/{id:guid}")]
         public async Task<IActionResult> Details(Guid id)
         {
             var produtoViewModel = await GetProduto(id);
@@ -42,7 +42,7 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        // [Route("novo-produto")]
+        [Route("novo-produto")]
         public async Task<IActionResult> Create()
         {
             ProdutoViewModel p = await PopulateFornecedores(new ProdutoViewModel());
@@ -50,7 +50,7 @@ namespace DevIO.App.Controllers
             return View(p);
         }
 
-        // [Route("novo-produto")]
+        [Route("novo-produto")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
@@ -73,7 +73,7 @@ namespace DevIO.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //  [Route("editar-produto/{id:guid}")]
+        [Route("editar-produto/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
             var produtoViewModel = await GetProduto(id);
@@ -118,7 +118,7 @@ namespace DevIO.App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // [Route("excluir-produto/{id:guid}")]
+        [Route("excluir-produto/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var produtoViewModel = await GetProduto(id);
@@ -128,7 +128,7 @@ namespace DevIO.App.Controllers
             return View(produtoViewModel);
         }
 
-        // [Route("excluir-produto/{id:guid}")]
+        [Route("excluir-produto/{id:guid}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
