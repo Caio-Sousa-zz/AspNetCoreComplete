@@ -8,22 +8,36 @@ namespace DevIO.Business.Services
 {
     public class ProdutoService : BaseService, IProdutoService
     {
+        private readonly IProdutoRepository _produtoRepository;
+
+        public ProdutoService(IProdutoRepository produtoRepository)
+        {
+            _produtoRepository = produtoRepository;
+        }
+
         public async Task Add(Produto produto)
         {
             if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
-            throw new NotImplementedException();
+
+            await _produtoRepository.Add(produto);
         }
 
         public async Task Update(Produto produto)
         {
             if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
-            throw new NotImplementedException();
+
+            await _produtoRepository.Update(produto);
         }
 
-         public async Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
 
-            throw new NotImplementedException();
+            await _produtoRepository.Delete(id);
+        }
+
+        public void Dispose()
+        {
+            _produtoRepository?.Dispose();
         }
     }
 }
