@@ -143,11 +143,13 @@ namespace DevIO.App.Controllers
         {
             var produto = await GetProduto(id);
 
-            if(produto == null) return NotFound(produto);
-
-            if(!OperacaoValida()) return View();
+            if (produto == null) return NotFound(produto);
 
             await _produtoService.Delete(id);
+
+            if (!OperacaoValida()) return View();
+
+            TempData["Sucesso"] = $"Produto {produto.Nome} excluido com sucesso!";
 
             return RedirectToAction(nameof(Index));
         }
