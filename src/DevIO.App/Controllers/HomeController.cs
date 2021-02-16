@@ -24,10 +24,32 @@ namespace DevIO.App.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("erro/{id:length(3,3)}")]
+        public IActionResult Error(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var modelError = new ErrorViewModel();
+
+            switch (id)
+            {
+                case 500:
+                    modelError.Message = "Ocorreu um erro! Tente novamente mais tarde ou contate nosso supporte.";
+                    modelError.Title = "Ocorreu um erro";
+                    break;
+                case 404:
+                    modelError.Message = "A página que está procurando não existe! <br />Em caso de dúvidas entre em contato com nosso supporte.";
+                    modelError.Title = "Ops! Página não encontrada";
+                    break;
+                case 403:
+                    modelError.Message = "Você não tem permissão para fazer isto.";
+                    modelError.Title = "Acesso Negado";
+                    break;
+                default:
+                    return StatusCode(404);
+            }
+
+            modelError.RequestId = id;
+
+            return View(modelError);
         }
     }
 }

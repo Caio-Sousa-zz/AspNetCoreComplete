@@ -1,11 +1,10 @@
-using System;
-
 namespace DevIO.App.ViewModels
 {
     public class ErrorViewModel
     {
-        public string RequestId { get; set; }
-
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public string Title { get; set; }
+        public string Message { get; set; }
+        public int RequestId { get; set; }
+        public bool ShowRequestId => RequestId == 0;
     }
 }
